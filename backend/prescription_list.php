@@ -2,24 +2,24 @@
 header('Content-Type: application/json');
 include("connectDB.php");
 
-class otcList extends db_connect{
-    public function fetchOtcList() {
+class prescriptionList extends db_connect{
+    public function fetchprescriptionList() {
         $conn = $this->db_connect();
         $result = array(); 
         $sql = "SELECT * 
-                FROM otc_list;";
+                FROM prescription_list;";
 
         $stmt = $conn->prepare($sql);
         $stmt->execute();
-        $stmt->bind_result($id, $title, $desription, $drug_name, $price);
+        $stmt->bind_result($id, $title, $desription, $price, $medical_uses);
 
         while($stmt->fetch()){
             $temp = [
                 'id'=>$id,
                 'title'=>$title,
                 'desription'=>$desription,
-                'drug_name'=>$drug_name,
                 'price'=>$price,
+                'medical_uses'=>$medical_uses,
             ];
 
             array_push($result, $temp);
@@ -29,6 +29,6 @@ class otcList extends db_connect{
     }
 }
 
-$otcList = new otcList();
-echo $otcList->fetchOtcList();
+$prescriptionList = new prescriptionList();
+echo $prescriptionList->fetchprescriptionList();
 ?>
